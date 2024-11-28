@@ -1,15 +1,16 @@
-package sample.cafekiosk.spring.api.service.order;
+package sample.cafekiosk.spring.domain.order;
 
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import sample.cafekiosk.spring.domain.order.Order;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderTest {
 
@@ -66,7 +67,7 @@ public class OrderTest {
         Order order = Order.create(products,registeredDateTime);
         // then
 
-        assertThat(order.getRegisteredDateTime()).isEqualto(registeredDateTime);
+        assertThat(order.getRegisteredDateTime()).isEqualTo(registeredDateTime);
     }
 
     private Product createProduct(Long productNumber, int price) {
