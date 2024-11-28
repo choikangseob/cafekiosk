@@ -1,7 +1,19 @@
 package sample.cafekiosk.spring.api.service.order;
 
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import sample.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
+import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
+import sample.cafekiosk.spring.domain.product.Product;
+import sample.cafekiosk.spring.domain.product.ProductRepository;
+import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
+import sample.cafekiosk.spring.domain.product.ProductType;
 
+import java.time.LocalDateTime;
+import java.util.List;
 
 @ActiveProfiles("test")
 @SpringBootTest

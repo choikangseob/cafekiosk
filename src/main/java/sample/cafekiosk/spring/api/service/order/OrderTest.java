@@ -1,11 +1,23 @@
 package sample.cafekiosk.spring.api.service.order;
 
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import sample.cafekiosk.spring.domain.order.Order;
+import sample.cafekiosk.spring.domain.product.Product;
+import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
+import sample.cafekiosk.spring.domain.product.ProductType;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class OrderTest {
 
     @Test
     @DisplayName("주문 생성 시 상품 리스트에서 주문의 총 금액을 계산한다.")
     public void calculateTotalPrice() {
+
+        LocalDateTime registeredDateTime = LocalDateTime.now();
         // given
         List<Product> products = List.of(
                 createProduct(001L, 1000),
@@ -14,7 +26,7 @@ public class OrderTest {
 
         // when
 
-        Order order = Order.create(products);
+        Order order = Order.create(products, registeredDateTime);
         // then
 
         assertThat(order.getTotalPrice()).isEqualTo(3000);
@@ -23,6 +35,7 @@ public class OrderTest {
     @Test
     @DisplayName("주문 생성 시 주문 상태는 INIT 이다.")
     public void init() {
+        LocalDateTime registeredDateTime = LocalDateTime.now();
         // given
         List<Product> products = List.of(
                 createProduct(001L, 1000),
@@ -31,7 +44,7 @@ public class OrderTest {
 
         // when
 
-        Order order = Order.create(products);
+        Order order = Order.create(products, registeredDateTime);
         // then
 
         assertThat(order.getOrderStatus()).isEqualByComparingTo(OrderStatus.INIT);
