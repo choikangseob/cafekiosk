@@ -21,8 +21,8 @@ public class OrderTest {
         LocalDateTime registeredDateTime = LocalDateTime.now();
         // given
         List<Product> products = List.of(
-                createProduct(001L, 1000),
-                createProduct(002L, 2000)
+                createProduct("001", 1000),
+                createProduct("002", 2000)
         );
 
         // when
@@ -39,8 +39,8 @@ public class OrderTest {
         LocalDateTime registeredDateTime = LocalDateTime.now();
         // given
         List<Product> products = List.of(
-                createProduct(001L, 1000),
-                createProduct(002L, 2000)
+                createProduct("001", 1000),
+                createProduct("002", 2000)
         );
 
         // when
@@ -58,8 +58,8 @@ public class OrderTest {
         LocalDateTime registeredDateTime = LocalDateTime.now();
         // given
         List<Product> products = List.of(
-                createProduct(001L, 1000),
-                createProduct(002L, 2000)
+                createProduct("001", 1000),
+                createProduct("002", 2000)
         );
 
         // when
@@ -70,7 +70,7 @@ public class OrderTest {
         assertThat(order.getRegisteredDateTime()).isEqualTo(registeredDateTime);
     }
 
-    private Product createProduct(Long productNumber, int price) {
+    private Product createProduct(String productNumber, int price) {
 
         return Product.builder()
                 .type(ProductType.HANDMADE)

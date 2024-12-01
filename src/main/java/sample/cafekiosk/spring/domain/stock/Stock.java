@@ -21,18 +21,18 @@ public class Stock extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productNumber;
+    private String productNumber;
 
     private int quantity;
 
 
     @Builder
-    private Stock(Long productNumber, int quantity) {
+    private Stock(String productNumber, int quantity) {
         this.productNumber = productNumber;
         this.quantity = quantity;
     }
 
-    public static Stock create(long productNumber, int quantity) {
+    public static Stock create(String productNumber, int quantity) {
         return Stock.builder()
                 .productNumber(productNumber)
                 .quantity(quantity)

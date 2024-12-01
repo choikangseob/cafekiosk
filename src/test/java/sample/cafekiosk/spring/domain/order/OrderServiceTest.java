@@ -47,27 +47,27 @@ public class OrderServiceTest {
     @Autowired
     private OrderService orderService;
 
-/*    @AfterEach
+    @AfterEach
     public void tearDown() {
         orderProductRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch();
         orderRepository.deleteAllInBatch();
-    }*/
+    }
 
     @Test
     @DisplayName("주문번호 리스트를 받아 주문번호를 생성한다.")
    public void createOrder(){
         // given
-        Product product = createProduct(ProductType.HANDMADE,001L,1000);
-        Product product2 = createProduct(ProductType.HANDMADE,002L,3000);
-        Product product3 = createProduct(ProductType.HANDMADE,003L,5000);
+        Product product = createProduct(ProductType.HANDMADE,"001",1000);
+        Product product2 = createProduct(ProductType.HANDMADE,"002",3000);
+        Product product3 = createProduct(ProductType.HANDMADE,"003",5000);
 
         productRepository.saveAll(List.of(product, product2, product3));
 
 
         // when
         OrderCreateRequest request = OrderCreateRequest.builder()
-                .productNumbers(List.of(001L, 002L))
+                .productNumbers(List.of("001", "002"))
                 .build();
         LocalDateTime registeredDateTime = LocalDateTime.now();
        OrderResponse orderResponse = orderService.createOrder(request,registeredDateTime);
@@ -80,8 +80,8 @@ public class OrderServiceTest {
         assertThat(orderResponse.getProducts()).hasSize(2)
                 .extracting("productNumber","price")
                 .containsExactlyInAnyOrder(
-                        tuple(001L,1000),
-                        tuple(002L,3000)
+                        tuple("001",1000),
+                        tuple("002",3000)
                 );
     }
 
@@ -91,20 +91,20 @@ public class OrderServiceTest {
         // given
         LocalDateTime registeredDateTime = LocalDateTime.now();
 
-        Product product = createProduct(ProductType.BOTTLE,001L,1000);
-        Product product2 = createProduct(ProductType.BAKERY,002L,3000);
-        Product product3 = createProduct(ProductType.HANDMADE,003L,5000);
+        Product product = createProduct(ProductType.BOTTLE,"001",1000);
+        Product product2 = createProduct(ProductType.BAKERY,"002",3000);
+        Product product3 = createProduct(ProductType.HANDMADE,"003",5000);
 
         productRepository.saveAll(List.of(product, product2, product3));
 
 
-        Stock stock1 = Stock.create(001L,2);
-        Stock stock2 = Stock.create(002L,2);
+        Stock stock1 = Stock.create("001",2);
+        Stock stock2 = Stock.create("002",2);
         stockRepository.saveAll(List.of(stock1, stock2));
 
         // when
         OrderCreateRequest request = OrderCreateRequest.builder()
-                .productNumbers(List.of(001L, 001L, 002L, 003L))
+                .productNumbers(List.of("001", "001", "002", "003"))
                 .build();
 
         OrderResponse orderResponse = orderService.createOrder(request,registeredDateTime);
@@ -117,18 +117,18 @@ public class OrderServiceTest {
         assertThat(orderResponse.getProducts()).hasSize(4)
                 .extracting("productNumber","price")
                 .containsExactlyInAnyOrder(
-                        tuple(001L,1000),
-                        tuple(001L,1000),
-                        tuple(002L,3000),
-                        tuple(003L,5000)
+                        tuple("001",1000),
+                        tuple("001",1000),
+                        tuple("002",3000),
+                        tuple("003",5000)
                 );
 
         List<Stock> stocks = stockRepository.findAll();
         assertThat(stocks).hasSize(2)
                 .extracting("productNumber","quantity")
                 .containsExactlyInAnyOrder(
-                        tuple(001L,0),
-                        tuple(002L,1)
+                        tuple("001",0),
+                        tuple("002",1)
                 );
     }
 
@@ -138,20 +138,20 @@ public class OrderServiceTest {
         // given
         LocalDateTime registeredDateTime = LocalDateTime.now();
 
-        Product product = createProduct(ProductType.BOTTLE,001L,1000);
-        Product product2 = createProduct(ProductType.BAKERY,002L,3000);
-        Product product3 = createProduct(ProductType.HANDMADE,003L,5000);
+        Product product = createProduct(ProductType.BOTTLE,"001",1000);
+        Product product2 = createProduct(ProductType.BAKERY,"002",3000);
+        Product product3 = createProduct(ProductType.HANDMADE,"003",5000);
 
         productRepository.saveAll(List.of(product, product2, product3));
 
 
-        Stock stock1 = Stock.create(001L,2);
-        Stock stock2 = Stock.create(002L,2);
+        Stock stock1 = Stock.create("001",2);
+        Stock stock2 = Stock.create("002",2);
         stock1.deductQuantity(1);
         stockRepository.saveAll(List.of(stock1, stock2));
 
         OrderCreateRequest request = OrderCreateRequest.builder()
-                .productNumbers(List.of(001L, 001L, 002L, 003L))
+                .productNumbers(List.of("001", "001", "002", "003"))
                 .build();
 
         // when//then
@@ -169,16 +169,16 @@ public class OrderServiceTest {
     @DisplayName("중복되는 상품번호 리스트로 주문을 생성할 수 있다.")
     public void createOrderWithDuplicateProductNumber(){
         // given
-        Product product = createProduct(ProductType.HANDMADE,001L,1000);
-        Product product2 = createProduct(ProductType.HANDMADE,002L,3000);
-        Product product3 = createProduct(ProductType.HANDMADE,003L,5000);
+        Product product = createProduct(ProductType.HANDMADE,"001",1000);
+        Product product2 = createProduct(ProductType.HANDMADE,"002",3000);
+        Product product3 = createProduct(ProductType.HANDMADE,"003",5000);
 
         productRepository.saveAll(List.of(product, product2, product3));
 
 
         // when
         OrderCreateRequest request = OrderCreateRequest.builder()
-                .productNumbers(List.of(001L, 001L))
+                .productNumbers(List.of("001", "001"))
                 .build();
         LocalDateTime registeredDateTime = LocalDateTime.now();
         OrderResponse orderResponse = orderService.createOrder(request,registeredDateTime);
@@ -191,12 +191,12 @@ public class OrderServiceTest {
         assertThat(orderResponse.getProducts()).hasSize(2)
                 .extracting("productNumber","price")
                 .containsExactlyInAnyOrder(
-                        tuple(001L,1000),
-                        tuple(001L,1000)
+                        tuple("001",1000),
+                        tuple("001",1000)
                 );
     }
 
-    private Product createProduct(ProductType type, Long productNumber, int price){
+    private Product createProduct(ProductType type, String productNumber, int price){
 
         return Product.builder()
                 .type(type)

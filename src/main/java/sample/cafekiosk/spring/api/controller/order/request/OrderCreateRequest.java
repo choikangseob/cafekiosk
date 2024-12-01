@@ -12,11 +12,11 @@ import java.util.List;
 public class OrderCreateRequest {
 
 
-    private List<Long> productNumbers;
+    private List<String> productNumbers;
 
 
     @Builder
-    private OrderCreateRequest(List<Long> productNumbers) {
+    private OrderCreateRequest(List<String> productNumbers) {
         this.productNumbers = productNumbers;
     }
 }

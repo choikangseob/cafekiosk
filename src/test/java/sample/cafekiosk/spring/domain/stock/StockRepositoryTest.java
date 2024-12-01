@@ -23,20 +23,20 @@ public class StockRepositoryTest {
     @DisplayName("상품번호 리스트로 재고를 조회한다")
     public void findAllByProductNumberIn (){
         // given
-        Stock stock1 = Stock.create(001L, 1);
-        Stock stock2 = Stock.create(002L, 2);
-        Stock stock3 = Stock.create(003L, 3);
+        Stock stock1 = Stock.create("001", 1);
+        Stock stock2 = Stock.create("002", 2);
+        Stock stock3 = Stock.create("003", 3);
 
         stockRepository.saveAll(List.of(stock1, stock2, stock3));
 
         // when
-        List<Stock> stocks = stockRepository.findAllByProductNumberIn(List.of(001L,002L));
+        List<Stock> stocks = stockRepository.findAllByProductNumberIn(List.of("001","002"));
         // then
         assertThat(stocks).hasSize(2)
         .extracting("productNumber","quantity")
                 .containsExactlyInAnyOrder(
-                        tuple(001L,1),
-                        tuple(002L,2)
+                        tuple("001",1),
+                        tuple("002",2)
                 );
 
 
