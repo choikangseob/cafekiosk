@@ -3,6 +3,7 @@ package sample.cafekiosk.spring.api.service.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.Product;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -24,10 +26,11 @@ public class ProductService {
        List<Product> products = productRepository.findAllBySellingStatusIn(ProductSellingStatus.forDisplay());
 
        return products.stream()
-               .map(product ->ProductResponse.of(product))
+               .map(ProductResponse::of)
                .collect(Collectors.toList());
    }
 
+   @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
         String nextProductNumber = createNextProductNumber();
         // nextProductNumber
@@ -36,14 +39,7 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
 
 
-        return ProductResponse.builder()
-                .id(savedProduct.getId())
-                .productNumber(nextProductNumber)
-                .type(request.getType())
-                .sellingStatus(request.getSellingStatus())
-                .name(request.getName())
-                .price(request.getPrice())
-                .build();
+        return ProductResponse.of(savedProduct);
     }
 
     private String createNextProductNumber(){
