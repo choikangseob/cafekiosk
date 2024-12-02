@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sample.cafekiosk.spring.api.ApiResponse;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.ProductService;
+import sample.cafekiosk.spring.api.service.product.request.ProductCreateServiceRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 
 import javax.validation.Valid;
@@ -25,12 +26,12 @@ public class ProductController {
     public ApiResponse<ProductResponse> createProduct(
           @Valid @RequestBody ProductCreateRequest request){
 
-      return  ApiResponse.ok(productService.createProduct(request));
+      return  ApiResponse.ok(productService.createProduct(request.toServiceRequest()));
 
     }
 
     @GetMapping("/api/v1/products/selling")
-    public List<ProductResponse> getSellingProducts() {
-        return productService.getSellingProducts();
+    public ApiResponse<List<ProductResponse>> getSellingProducts() {
+        return ApiResponse.ok(productService.getSellingProducts());
     }
 }
