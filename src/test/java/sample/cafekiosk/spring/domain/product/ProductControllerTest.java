@@ -15,6 +15,7 @@ import sample.cafekiosk.spring.api.controller.product.ProductController;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.ProductService;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
+import sample.cafekiosk.spring.domain.ControllerTestSupport;
 
 import java.util.List;
 
@@ -23,8 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@WebMvcTest(controllers = ProductController.class)
-public class ProductControllerTest {
+public class ProductControllerTest extends ControllerTestSupport {
 
     @Autowired
     private MockMvc mockMvc;

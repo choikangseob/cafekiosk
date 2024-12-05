@@ -25,6 +25,7 @@ public class ProductRepositoryTest {
     void findAllBySellingStatusIn() {
         // given
 
+
         // when
         List<Product> products = productRepository.findAllBySellingStatusIn(List.of(ProductSellingStatus.SELLING, ProductSellingStatus.HOLD));
         // then

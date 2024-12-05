@@ -10,6 +10,7 @@ import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateR
 import sample.cafekiosk.spring.api.service.product.ProductService;
 import sample.cafekiosk.spring.api.service.product.request.ProductCreateServiceRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
+import sample.cafekiosk.spring.domain.IntegrationTestSupport;
 
 import java.util.List;
 
@@ -18,9 +19,8 @@ import static org.assertj.core.api.Assertions.tuple;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.SELLING;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
-@ActiveProfiles("test")
-@SpringBootTest
-public class ProductServiceTest {
+
+public class ProductServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductService productService;
