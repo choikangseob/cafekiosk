@@ -24,4 +24,18 @@ public class GuavaLearningTest {
                         List.of(1,2,3),List.of(4,5,6)
                 ));
     }
+
+    @Test
+    @DisplayName("테스트 체크")
+    public void partitionLearningTest2 (){
+        // given
+        List<Integer> integers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        // when
+        List<List<Integer>> partition = Lists.partition(integers, 5);
+        // then
+        assertThat(partition).hasSize(2)
+                .isEqualTo(List.of(
+                        List.of(1,2,3,4,5),List.of(6,7,8,9,10)
+                ));
+    }
 }
